@@ -1,0 +1,190 @@
+/* Rebuild study of sa-m.fr by Samuel Dumez. Original concept and design © Samuel Dumez. */
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 100;
+  margin: 0;
+  background: #fff;
+  color: #000;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* ---- Spinner di caricamento ---- */
+
+.spinner-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.spinner-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Griglia ---- */
+
+.grid-area {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 4vh 8vh;
+}
+
+.grid {
+  --cell-size: calc((100vw - 8vh) / var(--cols));
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell-size));
+  grid-template-rows: repeat(var(--rows), var(--cell-size));
+}
+
+.square {
+  position: relative;
+  box-sizing: border-box;
+  outline: 1px solid;
+  outline-offset: -0.5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.square.focused {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.square .content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(var(--cell-size) * 0.525);
+}
+
+.square .mini {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: calc(var(--cell-size) * 0.11);
+  font-size: calc(var(--cell-size) * 0.15);
+}
+
+/* ---- Input nascosto per la tastiera mobile ---- */
+
+.keyboard-input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: none;
+  outline: none;
+  opacity: 0;
+  font-size: 16px; /* evita lo zoom automatico di iOS Safari al focus */
+}
+
+/* ---- Footer: INFO + CONTACT ---- */
+
+footer {
+  display: flex;
+  width: 98%;
+  justify-content: space-between;
+  font-size: 1vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+footer div {
+  display: flex;
+  position: relative;
+}
+
+footer ul {
+  padding-left: 1vh;
+  list-style: none;
+  margin-block: 1em;
+}
+
+footer ul:first-child {
+  padding-left: 0;
+}
+
+.head-list {
+  position: absolute;
+  top: 0;
+}
+
+.spacer {
+  visibility: hidden;
+}
+
+.clue {
+  opacity: 0.075;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.clue.reveal {
+  opacity: 1;
+}
+
+a {
+  color: green;
+}
+
+/* ---- Mobile portrait ---- */
+
+@media (max-width: 820px) {
+  .grid {
+    --cell-size: calc(100vw / var(--cols));
+  }
+
+  .grid-area {
+    padding: 0 0 10vh;
+  }
+
+  .square .content {
+    font-size: calc(var(--cell-size) * 0.5);
+  }
+
+  .square .mini {
+    margin: calc(var(--cell-size) * 0.05);
+    font-size: calc(var(--cell-size) * 0.25);
+  }
+
+  footer {
+    width: 95%;
+    font-size: 2.5vw;
+  }
+}
+
+@media screen and (min-width: 1513px) {
+  footer {
+    font-size: 0.75vw;
+  }
+}
