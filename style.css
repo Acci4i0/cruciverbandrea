@@ -51,11 +51,14 @@ body {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  padding: 0 4vh 8vh;
+  padding: 0 4vh 16vh; /* il padding inferiore riserva lo spazio del footer fisso */
 }
 
 .grid {
-  --cell-size: calc((100vw - 8vh) / var(--cols));
+  /* La larghezza detta la dimensione delle celle come nell'originale;
+     il limite in altezza evita che la griglia raggiunga INFO/CONTACT
+     sulle finestre basse. */
+  --cell-size: min(calc((100vw - 8vh) / var(--cols)), calc(80vh / var(--rows)));
   display: grid;
   grid-template-columns: repeat(var(--cols), var(--cell-size));
   grid-template-rows: repeat(var(--rows), var(--cell-size));
@@ -146,11 +149,11 @@ a {
 
 @media (max-width: 820px) {
   .grid {
-    --cell-size: calc(100vw / var(--cols));
+    --cell-size: min(calc(100vw / var(--cols)), calc(80vh / var(--rows)));
   }
 
   .grid-area {
-    padding: 0 0 10vh;
+    padding: 0 0 16vh;
   }
 
   .square .content {
